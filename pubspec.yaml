@@ -40,6 +40,9 @@ dependencies:
   bloc: ^8.1.4
   flutter_bloc: ^8.1.5
   equatable: ^2.0.5
+  openpgp: ^3.7.2
+  basic_utils: ^5.7.0
+  flutter_secure_storage: ^4.2.1
 
 dev_dependencies:
   flutter_test:

@@ -30,7 +30,7 @@ class LoginScreen extends StatelessWidget {
               if (state is NotCompleteSettingsState) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const SetupWizardScreen(),
+                    builder: (context) => SetupWizardScreen(),
                   )
                 );
               }

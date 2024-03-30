@@ -1,21 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:maya/screens/setup_wizard/widgets/step_one.dart';
 
 class SetupWizardScreen extends StatelessWidget {
-  const SetupWizardScreen({super.key});
+  final passwordField = TextEditingController();
+  final resetPasswordField = TextEditingController();
+
+  SetupWizardScreen({super.key});
 
   static const String routeName = '/wizard';
 
   static Route route() {
     return MaterialPageRoute(
-      builder: (_) => const SetupWizardScreen(),
+      builder: (_) => SetupWizardScreen(),
       settings: const RouteSettings(name: routeName)
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Text('setup wizard'),
+    return  Scaffold(
+      body: Align(
+        alignment: Alignment.center,
+        child: SizedBox(
+          width: 300,
+          child: StepOne(passwordField: passwordField, resetPasswordField: resetPasswordField),
+        ),
+      ),
     );
   }
 }
