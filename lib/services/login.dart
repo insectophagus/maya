@@ -5,7 +5,7 @@ import 'package:hive/hive.dart';
 import 'package:maya/models/settings/settings.dart';
 
 class LoginService {
-  late Box<Settings> _settings;
+  late Box<Settings> settings;
 
   Future<bool> isCompleteSettings() async {
     const secureStorage = FlutterSecureStorage();
@@ -21,8 +21,8 @@ class LoginService {
     final token = await secureStorage.read(key: 'token');
     final encryptionKeyUint8List = base64Url.decode(token!);
 
-    final _settings = await Hive.openBox<Settings>('settings', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
-    final isCompleteSettings = _settings.get('isCompleteSettings');
+    final settings = await Hive.openBox<Settings>('settings', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+    final isCompleteSettings = settings.get('isCompleteSettings');
 
     // ignore: unrelated_type_equality_checks
     if (isCompleteSettings != null) {

@@ -1,4 +1,5 @@
 import 'package:hive/hive.dart';
+import 'package:openpgp/openpgp.dart';
 
 part 'settings.g.dart';
 
@@ -14,24 +15,12 @@ class Settings extends HiveObject {
   final bool isCompleteSettings;
 
   @HiveField(3)
-  final String name;
-
-  @HiveField(4)
-  final String email;
-
-  @HiveField(5)
-  final String passphrase;
-
-  @HiveField(6)
-  final String keyOptions;
+  final KeyPair keyPair;
 
   Settings(
     this.password,
     this.resetPassword,
     this.isCompleteSettings,
-    this.name,
-    this.email,
-    this.passphrase,
-    this.keyOptions
+    this.keyPair
   );
 }

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maya/routes/app_route.dart';
 import 'package:maya/screens/login/login_screen.dart';
 import 'package:maya/services/login.dart';
+import 'package:maya/services/wizard.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -11,7 +12,8 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (context) => LoginService())
+        RepositoryProvider(create: (context) => LoginService()),
+        RepositoryProvider(create: (context) => WizardService())
       ],
       child: MaterialApp(
         theme: ThemeData(
