@@ -85,7 +85,15 @@ class StepTwo extends StatelessWidget {
         ElevatedButton(
           onPressed: () {
             if (errorCubit.state.isValid && emailField.text.isNotEmpty && tokenNameField.text.isNotEmpty && passphraseField.text.isNotEmpty) {
-              // context.read<WizardBloc>().add(NextStepEvent(password: passwordField.text, resetPassword: resetPasswordField.text)); 
+              final state = context.read<WizardBloc>().state;
+
+              context.read<WizardBloc>().add(SaveSettingsEvent(
+                password: state.password,
+                resetPassword: state.resetPassword,
+                passphrase: passphraseField.text,
+                tokenName: tokenNameField.text,
+                email: emailField.text)
+              ); 
             }
           },
           child: const Text('Save')

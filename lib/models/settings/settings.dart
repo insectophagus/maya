@@ -15,12 +15,16 @@ class Settings extends HiveObject {
   final bool isCompleteSettings;
 
   @HiveField(3)
-  final KeyPair keyPair;
+  final String publicKey;
+
+  @HiveField(4)
+  final String privateKey;
 
   Settings(
     this.password,
     this.resetPassword,
     this.isCompleteSettings,
-    this.keyPair
+    this.publicKey,
+    this.privateKey
   );
 }

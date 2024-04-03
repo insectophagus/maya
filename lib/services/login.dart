@@ -16,14 +16,14 @@ class LoginService {
 
       await secureStorage.write(key: 'token', value: base64UrlEncode(token));
     }
-    Hive.registerAdapter(SettingsAdapter());
 
     final token = await secureStorage.read(key: 'token');
     final encryptionKeyUint8List = base64Url.decode(token!);
 
-    final settings = await Hive.openBox<Settings>('settings', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+    final settings = await Hive.openBox('settings', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
     final isCompleteSettings = settings.get('isCompleteSettings');
 
+    settings.close();
     // ignore: unrelated_type_equality_checks
     if (isCompleteSettings != null) {
       return true;

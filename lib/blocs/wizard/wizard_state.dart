@@ -8,6 +8,7 @@ final class WizardState extends Equatable {
     this.tokenName = '',
     this.email = '',
     this.passphrase = '',
+    this.isComplete = false
   });
 
   final int step;
@@ -16,6 +17,7 @@ final class WizardState extends Equatable {
   final String passphrase;
   final String tokenName;
   final String email;
+  final bool isComplete;
 
 
   WizardState copyWith({
@@ -25,6 +27,7 @@ final class WizardState extends Equatable {
     String Function()? passphrase,
     String Function()? tokenName,
     String Function()? email,
+    bool Function()? isComplete
   }) {
     return WizardState(
       step: step != null ? step() : this.step,
@@ -33,6 +36,7 @@ final class WizardState extends Equatable {
       passphrase: passphrase != null ? passphrase() : this.passphrase,
       tokenName: tokenName != null ? tokenName() : this.tokenName,
       email: email != null ? email() : this.email,
+      isComplete: isComplete != null ? isComplete() : this.isComplete,
     );
   }
 

@@ -20,14 +20,15 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       fields[0] as String,
       fields[1] as String,
       fields[2] as bool,
-      fields[3] as KeyPair,
+      fields[3] as String,
+      fields[4] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, Settings obj) {
     writer
-      ..writeByte(4)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.password)
       ..writeByte(1)
@@ -35,7 +36,9 @@ class SettingsAdapter extends TypeAdapter<Settings> {
       ..writeByte(2)
       ..write(obj.isCompleteSettings)
       ..writeByte(3)
-      ..write(obj.keyPair);
+      ..write(obj.publicKey)
+      ..writeByte(4)
+      ..write(obj.privateKey);
   }
 
   @override

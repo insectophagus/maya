@@ -19,3 +19,22 @@ class NextStepEvent extends WizardEvent {
   @override
   List<Object> get props => [2, password, resetPassword];
 }
+
+class SaveSettingsEvent extends WizardEvent {
+  const SaveSettingsEvent({
+    required this.password,
+    required this.resetPassword,
+    required this.passphrase,
+    required this.tokenName,
+    required this.email,
+  });
+
+  final String password;
+  final String resetPassword;
+  final String passphrase;
+  final String tokenName;
+  final String email;
+
+  @override
+  List<Object> get props => [password, resetPassword, passphrase, tokenName, email];
+}

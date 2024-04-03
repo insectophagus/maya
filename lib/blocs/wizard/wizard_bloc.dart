@@ -14,9 +14,34 @@ class WizardBloc extends Bloc<WizardEvent, WizardState> {
 
   WizardBloc(this._wizardService):super(const WizardState()) {
     on<NextStepEvent>(_onNextStep);
+    on<SaveSettingsEvent>(_onSaveSettings);
   }
 
   Future<void> _onNextStep(NextStepEvent event, Emitter<WizardState> emit) async {
     emit(state.copyWith(step: () => 2, password: () => event.password, resetPassword: () => event.resetPassword));
+  }
+
+  Future<void> _onSaveSettings(SaveSettingsEvent event, Emitter<WizardState> emit) async {
+    final settingsData = SettingsData()
+      ..email = event.email
+      ..password = event.password
+      ..resetPassword = event.resetPassword
+      ..tokenName = event.tokenName
+      ..passphrase = event.passphrase;
+
+    final keyPair = await _wizardService.saveSettings(settingsData);
+
+    await _wizardService.createArchive(keyPair);
+
+    await _wizardService.completeSetup();
+
+    emit(state.copyWith(
+      isComplete: () => true,
+      password: () => event.password,
+      resetPassword:() => event.resetPassword,
+      email: () => event.email,
+      tokenName: () => event.tokenName,
+      passphrase: () => event.passphrase
+    ));
   }
 }

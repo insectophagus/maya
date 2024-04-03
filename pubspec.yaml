@@ -43,6 +43,7 @@ dependencies:
   openpgp: ^3.7.2
   basic_utils: ^5.7.0
   flutter_secure_storage: ^4.2.1
+  tar: ^1.0.4
 
 dev_dependencies:
   flutter_test:
