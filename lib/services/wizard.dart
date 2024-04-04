@@ -50,11 +50,12 @@ class WizardService {
   Future<void> createArchive(PGP.KeyPair keyPair) async {
     final output = File('storage');
     final initData = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
+    final initDataFileName = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
 
     final tarEntries = Stream<TarEntry>.value(
       TarEntry.data(
         TarHeader(
-          name: 'hello.txt',
+          name: initDataFileName,
           mode: int.parse('644', radix: 8),
         ),
         utf8.encode(initData),
@@ -62,8 +63,9 @@ class WizardService {
     );
 
     final gzipData = tarEntries.transform(tarWriter).transform(gzip.encoder);
+    final bytesData = await gzipData.reduce((previous, element) => [...previous, ...element]);
   
-    final dataString = await PGP.OpenPGP.encrypt(gzipData.toString(), keyPair.publicKey);
+    final dataString = base64Encode(bytesData);
 
     final data = utf8.encode(dataString);
     final buffer = data.buffer;
