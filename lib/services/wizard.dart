@@ -34,7 +34,13 @@ class WizardService {
     final password = settings.password;
     final resetPassword = settings.resetPassword;
     
-    await settingsBox.putAll({'password': password, 'resetPassword': resetPassword, 'publicKey': keyPair.publicKey, 'privateKey': keyPair.privateKey});
+    await settingsBox.putAll({
+      'password': password,
+      'resetPassword': resetPassword,
+      'publicKey': keyPair.publicKey,
+      'privateKey': keyPair.privateKey,
+      'passphrase': settings.passphrase
+    });
 
     settingsBox.close();
 
@@ -43,7 +49,7 @@ class WizardService {
 
   Future<void> createArchive(PGP.KeyPair keyPair) async {
     final output = File('storage');
-    var initData = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
+    final initData = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
 
     final tarEntries = Stream<TarEntry>.value(
       TarEntry.data(
