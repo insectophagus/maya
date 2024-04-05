@@ -14,7 +14,7 @@ class EncryptFile {
     await crypt.encryptFile(path);
   }
 
-  static Future<String > decryptFile(String path) async {
+  static Future<Uint8List> decryptFile(String path) async {
     final crypt = AesCrypt();
     const secureStorage = FlutterSecureStorage();
     final encryptionKeyString = await secureStorage.read(key: 'token');
@@ -22,7 +22,7 @@ class EncryptFile {
     crypt.setOverwriteMode(AesCryptOwMode.on);
     crypt.setPassword(encryptionKeyString!);
 
-    final filePath = await crypt.decryptFile(path);
+    final filePath = await crypt.decryptDataFromFile(path);
 
     return filePath;
   }

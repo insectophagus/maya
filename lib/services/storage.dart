@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -11,10 +12,10 @@ class StorageService {
   late Box<Settings> settings;
 
   Future<List<TarEntry>> openStorage() async {
-    final storagePath = await EncryptFile.decryptFile('storage.tar.gz.aes');
-    final inputStream = File(storagePath).openRead();
+    final storageData = await EncryptFile.decryptFile('storage.tar.gz.aes');
+    final inputStream = Stream.value(List<int>.from(storageData));
     final decodedStream = inputStream.transform(gzip.decoder);
-    List<TarEntry> entries = [];
+    final List<TarEntry> entries = [];
 
     await TarReader.forEach(decodedStream, (entry) {
       entries.add(entry);

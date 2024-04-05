@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maya/blocs/storage/storage_bloc.dart';
 import 'package:maya/services/storage.dart';
@@ -6,7 +7,7 @@ import 'package:maya/services/storage.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  static const String routeName = '/';
+  static const String routeName = '/home';
 
   static Route route() {
     return MaterialPageRoute(
@@ -30,18 +31,20 @@ class HomeScreen extends StatelessWidget {
               return const Center(child: Text('home'));
             },
             listener: (context, state) {
-
+              print(state.entries);
             }
           ),
         ),
       ),
       drawer: Drawer(
-        backgroundColor: Colors.black,
         child: ListView(
           padding: EdgeInsets.zero,
           children: const [
-            DrawerHeader(child: Text('Māyā'))
-          ],
+            DrawerHeader(child: Center(child: Text('Māyā', style: TextStyle(fontSize: 32, color: Colors.black)))),
+            ListTile(title: Text('My storage')),
+            ListTile(title: Text('Devices')),
+            ListTile(title: Text('Settings'))
+          ]
         ),
       ),
     );
