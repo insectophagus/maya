@@ -39,7 +39,7 @@ class SetupWizardScreen extends StatelessWidget {
               if (state.isComplete) {
                 Navigator.of(context).push(
                   MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
+                    builder: (context) => LoginScreen(),
                   )
                 );
               }
