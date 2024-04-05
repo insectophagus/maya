@@ -8,3 +8,12 @@ class CheckCompleteEvent extends LoginEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SignInEvent extends LoginEvent {
+  const SignInEvent(this.password);
+
+  final String password;
+
+  @override
+  List<Object> get props => [password];
+}
