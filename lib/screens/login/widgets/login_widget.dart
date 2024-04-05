@@ -25,6 +25,9 @@ class Login extends StatelessWidget {
         const SizedBox(height: 55,),
         TextField(
           controller: passwordField,
+          onSubmitted: (String? value) {
+            context.read<LoginBloc>().add(SignInEvent(value!));
+          },
           keyboardType: TextInputType.number,
           maxLength: 8,
           enableSuggestions: false,
