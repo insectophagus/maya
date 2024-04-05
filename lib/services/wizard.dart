@@ -2,8 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:maya/models/settings/settings.dart';
+import 'package:maya/utils/encrypt_file.dart';
 import 'package:openpgp/openpgp.dart' as PGP;
 import 'package:tar/tar.dart';
 
@@ -48,29 +49,24 @@ class WizardService {
   }
 
   Future<void> createArchive(PGP.KeyPair keyPair) async {
-    final output = File('storage');
+    final output = File('storage.tar.gz');
     final initData = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
-    final initDataFileName = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
 
     final tarEntries = Stream<TarEntry>.value(
       TarEntry.data(
         TarHeader(
-          name: initDataFileName,
+          name: 'Hello.txt',
           mode: int.parse('644', radix: 8),
         ),
         utf8.encode(initData),
       ),
     );
 
-    final gzipData = tarEntries.transform(tarWriter).transform(gzip.encoder);
-    final bytesData = await gzipData.reduce((previous, element) => [...previous, ...element]);
-  
-    final dataString = base64Encode(bytesData);
+    await tarEntries.transform(tarWriter).transform(gzip.encoder).pipe(output.openWrite());
 
-    final data = utf8.encode(dataString);
-    final buffer = data.buffer;
-    
-    await output.writeAsBytes(buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+    await EncryptFile.encryptFile('storage.tar.gz');
+
+    await File('storage.tar.gz').delete();
   }
 
   Future<void> completeSetup() async {

@@ -5,6 +5,7 @@ import 'package:maya/models/settings/settings.dart';
 import 'package:maya/routes/app_route.dart';
 import 'package:maya/screens/login/login_screen.dart';
 import 'package:maya/services/login.dart';
+import 'package:maya/services/storage.dart';
 import 'package:maya/services/wizard.dart';
 
 class App extends StatelessWidget {
@@ -17,7 +18,8 @@ class App extends StatelessWidget {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(create: (context) => LoginService()),
-        RepositoryProvider(create: (context) => WizardService())
+        RepositoryProvider(create: (context) => WizardService()),
+        RepositoryProvider(create: (context) => StorageService())
       ],
       child: MaterialApp(
         theme: ThemeData(

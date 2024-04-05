@@ -51,7 +51,7 @@ class LoginService {
 
     settingsBox.clear();
 
-    File storage = File('storage');
+    File storage = File('storage.tar.gz.aes');
 
     await storage.delete();
   }
