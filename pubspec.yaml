@@ -21,6 +21,7 @@ dependencies:
   flutter_secure_storage: ^4.2.1
   tar: ^1.0.4
   aes_crypt_null_safe: ^3.0.0
+  flutter_quill: ^9.3.6
 
 dev_dependencies:
   flutter_test:

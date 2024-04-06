@@ -3,6 +3,7 @@ import 'package:maya/screens/error/error_screen.dart';
 import 'package:maya/screens/home/home_screen.dart';
 import 'package:maya/screens/login/login_screen.dart';
 import 'package:maya/screens/setup_wizard/setup_wizard_screen.dart';
+import 'package:maya/screens/text_editor/text_editor.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -15,6 +16,9 @@ class AppRouter {
 
       case SetupWizardScreen.routeName:
         return SetupWizardScreen.route();
+
+      case TextEditor.routeName:
+        return TextEditor.route();
 
       default:
         return _errorRoute();

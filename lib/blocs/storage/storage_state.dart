@@ -1,11 +1,20 @@
 part of 'storage_bloc.dart';
 
+class Entry {
+  Entry({
+    this.name = '',
+    this.content = ''
+  });
+
+  late String name;
+  late String content;
+}
 abstract class StorageState extends Equatable {
   const StorageState({
     this.entries = const [],
   });
 
-  final List<TarEntry> entries;
+  final List<Entry> entries;
 }
 
 class StorageInitial extends StorageState {
@@ -19,7 +28,7 @@ class EntriesState extends StorageState {
   });
 
   @override
-  final List<TarEntry> entries;
+  final List<Entry> entries;
 
   @override
   List<Object?> get props => [entries];

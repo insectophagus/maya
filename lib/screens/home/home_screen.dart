@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maya/blocs/storage/storage_bloc.dart';
+import 'package:maya/screens/home/widgets/text_file.dart';
 import 'package:maya/services/storage.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -28,7 +29,11 @@ class HomeScreen extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 25),
           child: BlocConsumer<StorageBloc, StorageState>(
             builder: (context, state) {
-              return const Center(child: Text('home'));
+              return Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: state.entries.map<Widget>((e) => TextFile(title: e.name, value: e.content,)).toList(),
+              );
             },
             listener: (context, state) {
               print(state.entries);
@@ -39,11 +44,11 @@ class HomeScreen extends StatelessWidget {
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
-          children: const [
-            DrawerHeader(child: Center(child: Text('Māyā', style: TextStyle(fontSize: 32, color: Colors.black)))),
-            ListTile(title: Text('My storage')),
-            ListTile(title: Text('Devices')),
-            ListTile(title: Text('Settings'))
+          children: [
+            const DrawerHeader(child: Center(child: Text('Māyā', style: TextStyle(fontSize: 32, color: Colors.black)))),
+            ListTile(title: const Text('My storage'), onTap: () {},),
+            ListTile(title: const Text('Devices'), onTap: () {}),
+            ListTile(title: const Text('Settings'), onTap: () {})
           ]
         ),
       ),

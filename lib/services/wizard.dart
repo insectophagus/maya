@@ -50,7 +50,7 @@ class WizardService {
 
   Future<void> createArchive(PGP.KeyPair keyPair) async {
     final output = File('storage.tar.gz');
-    final initData = await PGP.OpenPGP.encrypt("Hello", keyPair.publicKey);
+    final initData = await PGP.OpenPGP.encrypt("Hello\n\n", keyPair.publicKey);
 
     final tarEntries = Stream<TarEntry>.value(
       TarEntry.data(

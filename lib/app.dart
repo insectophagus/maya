@@ -22,6 +22,7 @@ class App extends StatelessWidget {
         RepositoryProvider(create: (context) => StorageService())
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.indigo,
         ),
