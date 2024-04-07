@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:maya/blocs/storage/storage_bloc.dart';
 import 'package:maya/screens/home/widgets/text_file.dart';
@@ -20,7 +19,9 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('My storage')),
+      appBar: AppBar(
+        title: const Text('My storage')
+      ),
       body: BlocProvider(
         create: (context) => StorageBloc(
           RepositoryProvider.of<StorageService>(context)
@@ -32,7 +33,7 @@ class HomeScreen extends StatelessWidget {
               return Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: state.entries.map<Widget>((e) => TextFile(title: e.name, value: e.content,)).toList(),
+                children: state.entries.map<Widget>((e) => TextFile(title: e.name, value: e.content, entries: state.entries)).toList(),
               );
             },
             listener: (context, state) {

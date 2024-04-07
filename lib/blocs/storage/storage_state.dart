@@ -33,3 +33,15 @@ class EntriesState extends StorageState {
   @override
   List<Object?> get props => [entries];
 }
+
+class UpdatedState extends StorageState {
+  const UpdatedState({
+    this.entries = const [],
+  });
+
+  @override
+  final List<Entry> entries;
+
+  @override
+  List<Object?> get props => [entries];
+}
