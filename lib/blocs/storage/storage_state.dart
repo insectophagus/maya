@@ -3,11 +3,13 @@ part of 'storage_bloc.dart';
 class Entry {
   Entry({
     this.name = '',
-    this.content = ''
+    this.content = '',
+    this.id = ''
   });
 
   late String name;
   late String content;
+  late String id;
 }
 abstract class StorageState extends Equatable {
   const StorageState({
@@ -36,6 +38,18 @@ class EntriesState extends StorageState {
 
 class UpdatedState extends StorageState {
   const UpdatedState({
+    this.entries = const [],
+  });
+
+  @override
+  final List<Entry> entries;
+
+  @override
+  List<Object?> get props => [entries];
+}
+
+class RenamedState extends StorageState {
+  const RenamedState({
     this.entries = const [],
   });
 

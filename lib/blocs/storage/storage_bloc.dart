@@ -11,6 +11,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
   StorageBloc(this._storageService):super(StorageInitial()) {
     on<OpenStorageEvent>(openStorage);
     on<UpdateStorageEvent>(updateStorage);
+    on<RenameEvent>(rename);
   }
   
   Future<void> openStorage(OpenStorageEvent event, Emitter<StorageState> emit) async {
@@ -23,8 +24,19 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     final entries = event.entries;
     final file = event.file;
     final updatedEntries = entries.map((e) => e.name == file.name ? file : e);
-    final newEntries = await _storageService.updateStorage(updatedEntries);
+    final newEntries = await _storageService.updateStorage(updatedEntries, true);
 
     emit(UpdatedState(entries: newEntries));
+  }
+
+  Future<void> rename(RenameEvent event, Emitter<StorageState> emit) async {
+    final entries = event.entries;
+    final name = event.name;
+    final id = event.id;
+
+    final updatedEntries = entries.map((e) => e.id == id ? Entry(name: name, content: e.content, id: id) : e);
+    final newEntries = await _storageService.updateStorage(updatedEntries, false);
+
+    emit(RenamedState(entries: newEntries));
   }
 }

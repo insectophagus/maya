@@ -27,9 +27,9 @@ class StorageService {
     return entries;
   }
 
-  Future<List<Entry>> updateStorage(Iterable<Entry> newStorageData) async {
+  Future<List<Entry>> updateStorage(Iterable<Entry> newStorageData, bool needEncryptContent) async {
     final output = File('storage.tar.gz');
-    final entries = getEntries(newStorageData);
+    final entries = getEntries(newStorageData, needEncryptContent);
 
     await entries.transform(tarWriter).transform(gzip.encoder).pipe(output.openWrite());
 
@@ -40,7 +40,7 @@ class StorageService {
     return await openStorage();
   }
 
-  Stream<TarEntry> getEntries(Iterable<Entry> updatedStorage) async* {
+  Stream<TarEntry> getEntries(Iterable<Entry> updatedStorage, bool needEncryptContent) async* {
     final streamStorage = Stream.fromIterable(updatedStorage);
     const secureStorage = FlutterSecureStorage();
     final encryptionKeyString = await secureStorage.read(key: 'token');
@@ -49,11 +49,12 @@ class StorageService {
     final publicKey = settingsBox.get('publicKey');
   
     await for (final entry in streamStorage) {
-      final content = await OpenPGP.encrypt(entry.content, publicKey as String);
+      final content = entry.content;
+      final encryptedContent = needEncryptContent ? await OpenPGP.encrypt('$content\n', publicKey as String) : '$content\n';
   
       yield TarEntry.data(
         TarHeader(name: entry.name, mode: int.parse('644', radix: 8)),
-        utf8.encode(content)
+        utf8.encode(encryptedContent)
       );
     }
   }

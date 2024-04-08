@@ -33,7 +33,19 @@ class HomeScreen extends StatelessWidget {
               return Wrap(
                 spacing: 8,
                 runSpacing: 8,
-                children: state.entries.map<Widget>((e) => TextFile(title: e.name, value: e.content, entries: state.entries)).toList(),
+                children: state.entries.map<Widget>((e) => TextFile(
+                  title: e.name,
+                  id: e.id,
+                  value: e.content,
+                  entries: state.entries,
+                  onSubmit: (value) {
+                    context.read<StorageBloc>().add(RenameEvent(
+                      name: value,
+                      id: e.id,
+                      entries: state.entries
+                    ));
+                  },
+                )).toList(),
               );
             },
             listener: (context, state) {
