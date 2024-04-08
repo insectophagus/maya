@@ -49,3 +49,16 @@ class DeleteEvent extends StorageEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class AddEvent extends StorageEvent {
+  const AddEvent({
+    required this.filePath,
+    required this.entries
+  });
+
+  final String filePath;
+  final List<Entry> entries;
+
+  @override
+  List<Object?> get props => [filePath];
+}

@@ -7,7 +7,9 @@ import 'package:maya/blocs/storage/storage_bloc.dart';
 import 'package:maya/models/settings/settings.dart';
 import 'package:maya/utils/encrypt_file.dart';
 import 'package:openpgp/openpgp.dart';
+import 'package:path/path.dart';
 import 'package:tar/tar.dart';
+import 'package:uuid/uuid.dart';
 
 class StorageService {
   late Box<Settings> settings;
@@ -21,10 +23,26 @@ class StorageService {
     await TarReader.forEach(decodedStream, (entry) async {
       final content = await entry.contents.transform(utf8.decoder).first;
 
-      entries.add(Entry(name: entry.header.name, content: content ));
+      entries.add(Entry(name: entry.header.name, content: content, id: const Uuid().v4() ));
     });
 
     return entries;
+  }
+
+  Future<Entry> openFile(String filePath) async {
+    const secureStorage = FlutterSecureStorage();
+    final encryptionKeyString = await secureStorage.read(key: 'token');
+    final encryptionKeyUint8List = base64Url.decode(encryptionKeyString!);
+    final settingsBox = await Hive.openBox('settings', encryptionCipher: HiveAesCipher(encryptionKeyUint8List));
+    final publicKey = settingsBox.get('publicKey');
+    File file = File(filePath);
+    final fileName = basename(filePath);
+    final content = await file.readAsString();
+    final encryptedContent = await OpenPGP.encrypt('$content\n', publicKey as String);
+  
+    final entry = Entry(name: fileName, content: encryptedContent, id: const Uuid().v4());
+
+    return entry;
   }
 
   Future<List<Entry>> updateStorage(Iterable<Entry> newStorageData, bool needEncryptContent) async {

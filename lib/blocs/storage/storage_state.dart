@@ -59,3 +59,15 @@ class RenamedState extends StorageState {
   @override
   List<Object?> get props => [entries];
 }
+
+class AddState extends StorageState {
+  const AddState({
+    this.entries = const [],
+  });
+
+  @override
+  final List<Entry> entries;
+
+  @override
+  List<Object?> get props => [entries];
+}

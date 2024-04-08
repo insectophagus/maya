@@ -24,6 +24,8 @@ dependencies:
   flutter_quill: ^9.3.6
   popover: ^0.3.0
   uuid: ^4.3.3
+  file_picker: ^8.0.0+1
+  path: ^1.9.0
 
 dev_dependencies:
   flutter_test:

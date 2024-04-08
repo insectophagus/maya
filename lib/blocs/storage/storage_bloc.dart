@@ -13,6 +13,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     on<UpdateStorageEvent>(updateStorage);
     on<RenameEvent>(rename);
     on<DeleteEvent>(delete);
+    on<AddEvent>(addFile);
   }
   
   Future<void> openStorage(OpenStorageEvent event, Emitter<StorageState> emit) async {
@@ -50,5 +51,17 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     final newEntries = await _storageService.updateStorage(entries, false);
 
     emit(RenamedState(entries: newEntries));
+  }
+
+  Future<void> addFile(AddEvent event, Emitter<StorageState> emit) async {
+    final entries = event.entries;
+    final filePath = event.filePath;
+    final entry = await _storageService.openFile(filePath);
+
+    entries.add(entry);
+
+    final newEntries = await _storageService.updateStorage(entries, false);
+
+    emit(AddState(entries: newEntries));
   }
 }
