@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:maya/blocs/storage/storage_bloc.dart';
 
-class RenameDialog extends StatelessWidget {
-  RenameDialog({
+class RemoveDialog extends StatelessWidget {
+  const RemoveDialog({
     super.key,
-    required this.title,
+    required this.id,
     required this.onSubmit,
     required this.onClose,
-    required this.entries
   });
 
-  final String title;
-  final List<Entry> entries;
-  late final TextEditingController titleField = TextEditingController.fromValue(TextEditingValue(text: title));
-  final Function(String value) onSubmit;
+  final String id;
+  final Function(String id) onSubmit;
   final Function() onClose;
 
   @override
@@ -21,12 +17,7 @@ class RenameDialog extends StatelessWidget {
     return SimpleDialog(
       contentPadding: const EdgeInsets.all(16),
       children: [
-        TextField(
-          controller: titleField,
-          enableSuggestions: false,
-          autocorrect: false,
-          style: const TextStyle(fontSize: 20, color: Colors.black),
-        ),
+        const Text('Are you sure?', style: TextStyle(fontSize: 30)),
         const SizedBox(height: 24),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -34,16 +25,16 @@ class RenameDialog extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                onSubmit(titleField.text);
+                onSubmit(id);
                 onClose();
               },
-              child: const Text('Save')
+              child: const Text('Yes')
             ),
             ElevatedButton(
               onPressed: () {
                 onClose();
               },
-              child: const Text('Cancel')
+              child: const Text('No')
             )
           ],
         )

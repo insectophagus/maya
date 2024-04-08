@@ -38,9 +38,15 @@ class HomeScreen extends StatelessWidget {
                   id: e.id,
                   value: e.content,
                   entries: state.entries,
-                  onSubmit: (value) {
+                  onRename: (value) {
                     context.read<StorageBloc>().add(RenameEvent(
                       name: value,
+                      id: e.id,
+                      entries: state.entries
+                    ));
+                  },
+                  onRemove: (value) {
+                    context.read<StorageBloc>().add(DeleteEvent(
                       id: e.id,
                       entries: state.entries
                     ));

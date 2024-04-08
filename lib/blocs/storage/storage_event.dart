@@ -36,3 +36,16 @@ class RenameEvent extends StorageEvent {
   @override
   List<Object?> get props => [name, id];
 }
+
+class DeleteEvent extends StorageEvent {
+  const DeleteEvent({
+    required this.id,
+    required this.entries
+  });
+
+  final String id;
+  final List<Entry> entries;
+
+  @override
+  List<Object?> get props => [id];
+}

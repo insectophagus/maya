@@ -12,6 +12,7 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
     on<OpenStorageEvent>(openStorage);
     on<UpdateStorageEvent>(updateStorage);
     on<RenameEvent>(rename);
+    on<DeleteEvent>(delete);
   }
   
   Future<void> openStorage(OpenStorageEvent event, Emitter<StorageState> emit) async {
@@ -36,6 +37,17 @@ class StorageBloc extends Bloc<StorageEvent, StorageState> {
 
     final updatedEntries = entries.map((e) => e.id == id ? Entry(name: name, content: e.content, id: id) : e);
     final newEntries = await _storageService.updateStorage(updatedEntries, false);
+
+    emit(RenamedState(entries: newEntries));
+  }
+
+  Future<void> delete(DeleteEvent event, Emitter<StorageState> emit) async {
+    final entries = event.entries;
+    final id = event.id;
+
+    entries.removeWhere((element) => element.id == id);
+
+    final newEntries = await _storageService.updateStorage(entries, false);
 
     emit(RenamedState(entries: newEntries));
   }
